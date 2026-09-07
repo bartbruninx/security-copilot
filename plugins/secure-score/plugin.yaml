@@ -1,0 +1,26 @@
+Descriptor:
+  Name: TenantSecureScore
+  DisplayName: Tenant Secure Score
+  Description: Read tenant Secure Score history and control profiles using delegated Microsoft Graph access.
+  SupportedAuthTypes:
+    - OAuthAuthorizationCodeFlow
+  Authorization:
+    Type: OAuthAuthorizationCodeFlow
+    ClientId: <APP_ID>
+    AuthorizationEndpoint: https://login.microsoftonline.com/<TENANT_ID>/oauth2/v2.0/authorize
+    TokenEndpoint: https://login.microsoftonline.com/<TENANT_ID>/oauth2/v2.0/token
+    Scopes: "https://graph.microsoft.com/SecurityEvents.Read.All offline_access"
+    AuthorizationContentType: application/x-www-form-urlencoded
+
+# AAD uses application-only access. The calling application requires
+# Microsoft Graph application permission SecurityEvents.Read.All
+# with administrator consent in the target tenant.
+# The .default scope does not grant permissions by itself.
+# Restrict plugin availability: application access is not per-user Graph RBAC.
+# Never put credentials or access tokens in either file.
+
+SkillGroups:
+  - Format: API
+    Settings:
+      # Replace with the HTTPS URL serving the OpenAPI YAML below.
+      OpenApiSpecUrl: https://raw.githubusercontent.com/bartbruninx/security-copilot/refs/heads/main/plugins/secure-score/secure-score.openapi.yaml
